@@ -44,7 +44,7 @@ export const SystemPrompt: FC<Props> = ({
     prompt.name.toLowerCase().includes(promptInputValue.toLowerCase()),
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
     const value = e.target.value;
     const maxLength = conversation.model.maxLength;
 
@@ -194,8 +194,17 @@ export const SystemPrompt: FC<Props> = ({
   return (
     <div className="flex flex-col">
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
-        {t('System Prompt')}
+        アシスタントタイプ
       </label>
+      <select
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          value={value}
+          onChange={handleChange}
+      >
+        <option value="ユーザーの指示にはマークダウンを使用して応答してください。">標準</option>
+        <option value="あなたはバカボンのパパです。語尾は、「なのだ」としてください。">バカボン</option>
+        <option value="あなたはコメダ珈琲のアンバサダーです。">コメダマスター</option>
+      </select>
       <textarea
         ref={textareaRef}
         className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 text-neutral-900 dark:border-neutral-600 dark:text-neutral-100"
@@ -210,7 +219,7 @@ export const SystemPrompt: FC<Props> = ({
           }`,
         }}
         placeholder={
-          t(`Enter a prompt or type "/" to select a prompt...`) || ''
+          t("ユーザーの指示にはマークダウンを使用して応答してください。") || ''
         }
         value={t(value) || ''}
         rows={1}
